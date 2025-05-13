@@ -1,0 +1,61 @@
+﻿@model CommonViewModel
+@{
+    List<User> users = (List<User>)ViewBag.Users;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="modal-background" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="input-group mrbot16">
+    <input type="search" class="form-control rounded" placeholder="Поиск по филимии и имени" aria-label="Search" aria-describedby="search-addon" id="searchwellfield" value="@(ViewBag.SearchedName != null ? ViewBag.SearchedName : "")" />
+    <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init onclick="SearchMember()">поиск</button>
+</div>
+
+<div style="justify-content: space-between; display: flex;" class="mrbot16 al-it-cn">
+    <p class="main-name">Пользователи</p>
+    <input type="button" class="btn btn-primary" value="Добавить" onclick="openModalAddUser({ url: '/Member/Add' });" />
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Роль</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Дата регистрации</th>
+                <th>Состояние</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr onclick="openModalEditUser({ url: '/Member/Edit', userid: '@user.Id' });" class="hover-color-gray">
+                    <td>@user.Username</td>
+                    <td>@user.Role</td>
+                    <td>@user.LastName</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.RegistrationDate.ToShortDateString()</td>
+                    @if (user.IsBlocked.Value)
+                    {
+                        <td>Заблокированный</td>
+                    }
+                    else
+                    {
+                        <td>Активный</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

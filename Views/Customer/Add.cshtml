@@ -1,0 +1,39 @@
+﻿@{
+}
+
+<form>
+    <p class="fontsize24 font-weight-bold mrbot16 cursor-default">Добавление клиента</p>
+    <div class="fontsize22 mrbot16">
+        <label for="lastname" class="form-label">Фамилия</label>
+        <input type="text" class="form-control" id="lastname" placeholder="Введите фамилию" oninput="validateTextInput(this)" maxlength="254">
+        <div id="lastname-error" class="invalid-feedback">*введите фамилию</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="firstname" class="form-label">Имя</label>
+        <input type="text" class="form-control" id="firstname" placeholder="Введите имя" oninput="validateTextInput(this)" maxlength="254">
+        <div id="firstname-error" class="invalid-feedback">*введите имя</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="contactnumber" class="form-label">Номер телефона</label>
+        <input type="tel" class="form-control" id="contactnumber" placeholder="Введите номер телефона" oninput="maskPhoneNumber(this)">
+        <div id="contactnumber-error" class="invalid-feedback">*введите номер телефона</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="email" class="form-label">Электронная почта</label>
+        <input type="email" class="form-control" id="email" placeholder="Введите электронную почту" maxlength="254">
+        <div id="email-error" class="invalid-feedback">*введите электронную почту</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="address" class="form-label">Адрес</label>
+        <input type="text" class="form-control" id="address" placeholder="Введите адрес" maxlength="254">
+        <div id="address-error" class="invalid-feedback">*введите адрес</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="clienttype" class="form-label">Тип клиента</label>
+        <select class="form-select" aria-label="Default select example" id="clienttype">
+            <option value="0">Физическое лицо</option>
+            <option value="1">Юридическое лицо</option>
+        </select>
+    </div>
+    <input type="button" class="btn btn-primary" style="font-size: 22px !important" value="Добавить" onclick="AddClient()" />
+</form>

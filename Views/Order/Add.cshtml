@@ -1,0 +1,44 @@
+﻿@{
+    List<Client> clients = (List<Client>)ViewBag.Clients;
+    List<Well> wells = (List<Well>)ViewBag.Wells;
+}
+
+<form>
+    <p class="fontsize24 font-weight-bold mrbot16 cursor-default">Добавление заказа на бурение</p>
+    <div class="fontsize22 mrbot16">
+        <label for="client" class="form-label">Клиент</label>
+        <select class="form-select" id="client">
+            @foreach (var cl in clients)
+            {
+                <option value="@cl.Id">@(cl.LastName + " " + cl.FirstName)</option>
+            }
+        </select>
+        <a href="/Customer/Index">Добавить</a>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="well" class="form-label">Скважина</label>
+        <select class="form-select" id="well">
+            @foreach (var wl in wells)
+            {
+                <option value="@wl.Id">@wl.Name</option>
+            }
+        </select>
+        <a href="/Borehole/Index">Добавить</a>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="orderdate" class="form-label">Начало выполнения</label>
+        <input type="date" class="form-control" id="orderdate">
+        <div id="orderdate-error" class="invalid-feedback">*введите дату начала работ</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="description" class="form-label">Описание работы</label>
+        <textarea id="description" placeholder="Введите описание" class="form-control" style="font-size: 22px !important;" maxlength="254"></textarea>
+        <div id="description-error" class="invalid-feedback">*введите описание работы</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="cost" class="form-label">Стоимость</label>
+        <input type="number" class="form-control" id="cost" placeholder="Введите стоимость">
+        <div id="cost-error" class="invalid-feedback">*введите стоимость</div>
+    </div>
+    <input type="button" class="btn btn-primary" style="font-size: 22px !important" value="Добавить" onclick="AddWorkOrder()" />
+</form>

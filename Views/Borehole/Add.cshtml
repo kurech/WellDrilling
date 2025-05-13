@@ -1,0 +1,61 @@
+﻿@{
+}
+
+<form>
+    <p class="fontsize24 font-weight-bold mrbot16 cursor-default">Добавление скважины</p>
+    <div class="fontsize22 mrbot16">
+        <label for="name" class="form-label">Наименование</label>
+        <input type="text" class="form-control" id="name" placeholder="Введите наименование">
+        <div id="name-error" class="invalid-feedback">*введите наименование скважины</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="latitude" class="form-label">Широта</label>
+        <input type="number" class="form-control" id="latitude" placeholder="Введите широту">
+        <div id="latitude-error" class="invalid-feedback">*введите широту (расположение)</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="longitude" class="form-label">Долгота</label>
+        <input type="number" class="form-control" id="longitude" placeholder="Введите долготу">
+        <div id="longitude-error" class="invalid-feedback">*введите долготу (расположение)</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="depth" class="form-label">Глубина</label>
+        <input type="number" class="form-control" id="depth" placeholder="Введите глубину">
+        <div id="depth-error" class="invalid-feedback">*введите глубину</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="diameter" class="form-label">Диаметр</label>
+        <input type="number" class="form-control" id="diameter" placeholder="Введите диаметр">
+        <div id="diameter-error" class="invalid-feedback">*введите диаметр</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="drillingmethod" class="form-label">Метод бурения</label>
+        <select class="form-select" id="drillingmethod">
+            <option value="Роторное">Роторное</option>
+            <option value="Ударно-вращательное">Ударно-вращательное</option>
+            <option value="Гидравлическое">Гидравлическое</option>
+            <option value="Гидророторное">Гидророторное</option>
+            <option value="Роторно-ударное">Роторно-ударное</option>
+            <option value="Роторно-вращательное">Роторно-вращательное</option>
+            <option value="Роторно-поршневое">Роторно-поршневое</option>
+            <option value="Вращательное">Вращательное</option>
+            <option value="Роторное с забивкой">Роторное с забивкой</option>
+            <option value="Вращательно-колоночное">Вращательно-колоночное</option>
+        </select>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="soiltype" class="form-label">Тип грунта</label>
+        <select class="form-select" id="soiltype">
+            <option value="Песок">Песок</option>
+            <option value="Глина">Глина</option>
+            <option value="Суглинок">Суглинок</option>
+            <option value="Глинистый песок">Глинистый песок</option>
+            <option value="Гравий">Гравий</option>
+            <option value="Песчаник">Песчаник</option>
+            <option value="Скала">Скала</option>
+            <option value="Торф">Торф</option>
+            <option value="Мергель">Мергель</option>
+        </select>
+    </div>
+    <input type="button" class="btn btn-primary" style="font-size: 22px !important" value="Добавить" onclick="AddWell()" />
+</form>

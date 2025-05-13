@@ -1,0 +1,76 @@
+﻿@model CommonViewModel
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Well Drilling</title>
+        <link rel="stylesheet" href="~/css/style.css" />
+        <script src="~/js/script.js"></script>
+        <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="w-60 m-0-auto" id="body">
+            <div class="jscn-spbt header-padd al-it-cn">
+                <div class="fontsize20">
+                    <a class="font-weight-bold" style="text-decoration: none; color: black">Well<span style="color: #0d6efd">Drilling</span></a>
+                </div>
+                <div id="menudropdownmenu" style="display: none" onclick="opendropdownmenu()">☰</div>
+                <div class="d-flex al-it-cn fontsize18 txt-dcr-none" style="justify-content: center;" id="menulist">
+                    <a href="/Customer/Index" class="@(Model.ThisUser.Role == "Менеджер" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Клиенты" ? "c-0d6efd" : "fclr-black")">Клиенты</a>
+                    <a href="/Borehole/Index" class="@(Model.ThisUser.Role == "Менеджер" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Скважины" ? "c-0d6efd" : "fclr-black")">Скважины</a>
+                    <a href="/Schedule/List" class="@(Model.ThisUser.Role == "Оператор" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Расписание" ? "c-0d6efd" : "fclr-black")">Расписание</a>
+                    <a href="/Order/Index" class="@(Model.ThisUser.Role == "Менеджер" || Model.ThisUser.Role == "Оператор" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Заказы" ? "c-0d6efd" : "fclr-black")">Заказы</a>
+                    <a href="/Member/Index" class="@(Model.ThisUser.Role == "Администратор" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Пользователи" ? "c-0d6efd" : "fclr-black")">Пользователи</a>
+                    <a href="/Worker/Main" class="@(Model.ThisUser.Role == "Рабочий" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Сегодня" ? "c-0d6efd" : "fclr-black")">Сегодня</a>
+                    <a href="/Worker/Schedule" class="@(Model.ThisUser.Role == "Рабочий" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Расписание" ? "c-0d6efd" : "fclr-black")">Расписание</a>
+                    <a href="/Notification/Index" class="@(Model.ThisUser.Role == "Рабочий" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Уведомления" ? "c-0d6efd" : "fclr-black")">Уведомления</a>
+                    <a href="/Profile/Index" class="@(Model.ThisUser.Role != "Администратор" ? "d-block" : "d-none") hvr-0d6efd mrleft5per mrright5per @(ViewBag.ActivePage == "Профиль" ? "c-0d6efd" : "fclr-black")">Профиль</a>
+                </div>
+                <div>
+                    @if (Model.ThisUser == null)
+                    {
+                        <input type="button" class="btn btn-primary" value="Войти" onclick="RedirectTo('/Access/Authorization')" />
+                    }
+                    else
+                    {
+                        <input type="button" class="btn btn-primary" value="Выйти" onclick="Logout();" />
+                    }
+                </div>
+            </div>
+            <div class="rightbar">
+                <div id="mobilemenu" style="display: none" class="txt-dcr-none">
+                    <a href="/Customer/Index" class="@(Model.ThisUser.Role == "Менеджер" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Клиенты" ? "c-0d6efd" : "fclr-black")">Клиенты</a>
+                    <a href="/Borehole/Index" class="@(Model.ThisUser.Role == "Менеджер" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Скважины" ? "c-0d6efd" : "fclr-black")">Скважины</a>
+                    <a href="/Schedule/List" class="@(Model.ThisUser.Role == "Оператор" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Расписание" ? "c-0d6efd" : "fclr-black")">Расписание</a>
+                    <a href="/Order/Index" class="@(Model.ThisUser.Role == "Менеджер" || Model.ThisUser.Role == "Оператор" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Заказы" ? "c-0d6efd" : "fclr-black")">Заказы</a>
+                    <a href="/Member/Index" class="@(Model.ThisUser.Role == "Администратор" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Пользователи" ? "c-0d6efd" : "fclr-black")">Пользователи</a>
+                    <a href="/Worker/Main" class="@(Model.ThisUser.Role == "Рабочий" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Сегодня" ? "c-0d6efd" : "fclr-black")">Сегодня</a>
+                    <a href="/Worker/Schedule" class="@(Model.ThisUser.Role == "Рабочий" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Расписание" ? "c-0d6efd" : "fclr-black")">Расписание</a>
+                    <a href="/Notification/Index" class="@(Model.ThisUser.Role == "Рабочий" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Уведомления" ? "c-0d6efd" : "fclr-black")">Уведомления</a>
+                    <a href="/Profile/Index" class="@(Model.ThisUser.Role != "Администратор" ? "d-block" : "d-none") hvr-0d6efd fontsize22 mrbot8 @(ViewBag.ActivePage == "Профиль" ? "c-0d6efd" : "fclr-black")">Профиль</a>
+                </div>
+
+                <!-- Прелоадер -->
+                <div id="preloader">
+                    <img src="/references/preloader.gif" alt="Loading..." class="preloader-gif">
+                </div>
+                @RenderBody()
+
+                <script>
+                    // JavaScript для управления видимостью прелоадера
+                    $(window).on('load', function () {
+                        setTimeout(function () {
+                            $('#preloader').fadeOut('slow', function () {
+                                $(this).remove();
+                            });
+                        }, 2000); // Задержка в 3 секунды
+                    });
+                </script>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,77 @@
+﻿@model CommonViewModel
+@{
+    var workorder = (WorkOrder)ViewBag.WorkOrder;
+    var client = (Client)ViewBag.Client;
+    var well = (Well)ViewBag.Well;
+    List<WellUser>? wellusers = (List<WellUser>)ViewBag.WellUsers;
+    var users = (List<User>)ViewBag.Users;
+    WorkSchedule? ws = (WorkSchedule)ViewBag.WorkSchedule;
+
+    int usersreadycount = wellusers.Count(wu => wu.IsReady);
+}
+
+<p class="fontsize24 font-weight-bold mrbot16 cursor-default">Заказ на бурение №@workorder.Id</p>
+
+<div class="fontsize22">
+    <label class="form-label">Заказчик</label>
+    <label style="font-weight: bold" class="form-label cursor-pointer" onclick="RedirectTo('/Customer/Index?query=@client.LastName @client.FirstName');">@client.LastName @client.FirstName</label>
+</div>
+
+<div class="fontsize22">
+    <label class="form-label">Скважина</label>
+    <label style="font-weight: bold" class="form-label cursor-pointer" onclick="RedirectTo('/Borehole/Index?wellname=@well.Name');">@well.Name - [@well.Latitude;@well.Longitude]</label>
+</div>
+
+<div class="fontsize22">
+    <label class="form-label">Рабочие</label>
+    @foreach(var welluser in wellusers)
+    {
+        var user = users.SingleOrDefault(x => x.Id == welluser.UserId);
+        <label style="font-weight: bold" class="form-label" title="@user.Username - @user.RegistrationDate">@user.LastName</label>
+        <label style="font-weight: bold" class="form-label" title="@user.Username - @user.RegistrationDate">@user.FirstName</label>
+        
+        if (wellusers.Last() != welluser)
+        {
+            <label>,</label>
+        }
+    }
+</div>
+
+<div class="fontsize22">
+    <label class="form-label">Дата заказа</label>
+    <label style="font-weight: bold" class="form-label">@workorder.OrderDate.ToLongDateString()</label>
+</div>
+
+<div class="fontsize22">
+    <label class="form-label">Описание</label>
+    <label style="font-weight: bold" class="form-label">@workorder.Description</label>
+</div>
+
+<div class="fontsize22">
+    <label class="form-label">Общая стоимость работы</label>
+    <label style="font-weight: bold" class="form-label">@workorder.Cost рублей</label>
+</div>
+
+@if(workorder.WorkScheduleId == null)
+{
+    <p class="fontsize22">Рабочие не назначены</p>
+}
+else
+{
+    if (wellusers.Count == usersreadycount)
+    {
+        <p class="fontsize22">Все рабочие подтвердили выполнение заказа</p>
+        if (ws.Status != "Выполнено")
+        {
+            <p>Оператор не подтвердил выполнение заказа</p>
+        }
+    }
+    else if (usersreadycount > 0)
+    {
+        <p class="fontsize22">Не все рабочие подтвердили выполнение заказа</p>
+    }
+    else
+    {
+        <p class="fontsize22">Рабочие не подтвердили выполнение заказа</p>
+    }
+}

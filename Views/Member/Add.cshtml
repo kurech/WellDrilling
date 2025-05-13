@@ -1,0 +1,36 @@
+﻿@{
+}
+
+<form>
+    <p class="fontsize24 font-weight-bold mrbot16 cursor-default">Добавление пользователя</p>
+    <div class="fontsize22 mrbot16">
+        <label for="email" class="form-label">Элетронная почта</label>
+        <input type="email" class="form-control" id="email" placeholder="Введите электронную почту">
+        <div id="email-error" class="invalid-feedback">*введите электронную почту</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" placeholder="Введите пароль">
+        <p onclick="GeneratePassword()" class="hover-color-blue cursor-pointer">Сгенерировать пароль</p>
+        <div id="password-error" class="invalid-feedback">*введите пароль</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="role" class="form-label">Роль</label>
+        <select class="form-select" id="role">
+            <option value="Рабочий">Рабочий</option>
+            <option value="Оператор">Оператор</option>
+            <option value="Менеджер">Менеджер</option>
+        </select>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="lastname" class="form-label">Фамилия</label>
+        <input type="text" class="form-control" id="lastname" placeholder="Введите фамилию" oninput="validateTextInput(this)" maxlength="254">
+        <div id="lastname-error" class="invalid-feedback">*введите фамилию</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="firstname" class="form-label">Имя</label>
+        <input type="text" class="form-control" id="firstname" placeholder="Введите имя" oninput="validateTextInput(this)" maxlength="254">
+        <div id="firstname-error" class="invalid-feedback">*введите имя</div>
+    </div>
+    <input type="button" class="btn btn-primary" style="font-size: 22px !important" value="Добавить" onclick="AddUser()" />
+</form>

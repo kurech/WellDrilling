@@ -1,0 +1,44 @@
+﻿@model CommonViewModel
+
+@{
+    List<WorkSchedule> ws = (List<WorkSchedule>)ViewBag.WorkSchedules;
+    List<WellUser> wu = (List<WellUser>)ViewBag.WellUsers;
+    List<WorkOrder> wo = (List<WorkOrder>)ViewBag.WorkOrders;
+    List<User> users = (List<User>)ViewBag.Users;
+}
+
+<a href="/Schedule/Index" class="fontsize20 mrbot16 hover-color-blue" style="display: block; text-decoration: none; color: black">Добавить расписание работ</a>
+
+@foreach (var schedule in ws)
+{
+    var unreadyusers = wu.Where(x => x.IsReady == false && x.WorkScheduleId == schedule.Id).Count();
+    var usersids = wu.Where(x => x.WorkScheduleId == schedule.Id).Select(x => x.UserId).ToList();
+    var names = (from user in users
+                 join uid in usersids on user.Id equals uid
+                 select user.LastName + " " + user.FirstName).ToList();
+    var wellusers = string.Join(", ", Array.ConvertAll(names.ToArray(), i => i.ToString()));
+    <div class="base mrbot16 cursor-pointer d-flex jscn-spbt al-it-cn" onclick="openModalDisplaySchedule({ url: '/Schedule/Display', scheduleid: '@schedule.Id' });">
+        <div>
+            <p class="font-weight-bold">Заказ №<span>@wo.FirstOrDefault(x => x.WorkScheduleId == schedule.Id).Id</span></p>
+            <p>Рабочие: <span>@wellusers</span>.</p>
+            <p>Статус: <span>@schedule.Status</span></p>
+            <p>Даты: <span>@schedule.StartDate.ToLongDateString()</span> - <span>@schedule.EndDate.ToLongDateString()</span> <span>@(schedule.Status != "Выполнено" && DateTime.UtcNow > schedule.EndDate ? "(выполнение просрочено)" : "")</span></p>
+            <p>Описание: <span>@schedule.Description</span></p>
+        </div>
+        @if (schedule.Status != "Выполнено" && Model.ThisUser.Role == "Оператор" && unreadyusers == 0)
+        {
+            <input type="button" class="btn btn-primary" value="Подтвердить выполнение" onclick="SetScheduleStatus('@schedule.Id', 'Выполнено')" />
+        }
+    </div>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="modal-background" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>

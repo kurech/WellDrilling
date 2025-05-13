@@ -1,0 +1,84 @@
+﻿@model CommonViewModel
+@{
+    
+}
+
+<form>
+    <div class="base mrbot16">
+        <p class="font-weight-bold fontsize18 mrbot8 cursor-default">Основаная информация</p>
+        <div id="displayprofile">
+            <div>
+                <label class="form-label">Электронная почта</label>
+                <label style="font-weight: bold" class="form-label">@Model.ThisUser.Username</label>
+            </div>
+            <div>
+                <label class="form-label">Роль</label>
+                <label style="font-weight: bold" class="form-label">@Model.ThisUser.Role</label>
+            </div>
+            <div>
+                <label class="form-label">Фамилия</label>
+                <label style="font-weight: bold" class="form-label">@Model.ThisUser.LastName</label>
+            </div>
+            <div>
+                <label class="form-label">Имя</label>
+                <label style="font-weight: bold" class="form-label">@Model.ThisUser.FirstName</label>
+            </div>
+            <div>
+                <label class="form-label">Дата регистрации</label>
+                <label style="font-weight: bold" class="form-label">@Model.ThisUser.RegistrationDate.ToLongDateString()</label>
+            </div>
+            <input type="button" class="btn btn-primary" value="Редактировать" onclick="SwitchBetween('displayprofile', 'editprofile')" />
+        </div>
+        <div id="editprofile" style="display: none">
+            <div style="margin-bottom: .5rem;">
+                <div class="d-flex al-it-cn">
+                    <label for="lastname" class="form-label m-0 w-20">Фамилия</label>
+                    <input type="text" class="form-control" id="lastname" placeholder="Введите фамилию" value="@Model.ThisUser.LastName">
+                </div>
+                <div id="lastname-error" class="invalid-feedback">*введите фамилию</div>
+            </div>
+            <div style="margin-bottom: .5rem;">
+                <div class="d-flex al-it-cn">
+                    <label for="firstname" class="form-label m-0 w-20">Имя</label>
+                    <input type="text" class="form-control" id="firstname" placeholder="Введите имя" value="@Model.ThisUser.FirstName">
+                </div>
+                <div id="firstname-error" class="invalid-feedback">*введите имя</div>
+            </div>
+            <div class="d-flex" id="profilemainbuttons">
+                <input type="button" class="btn btn-primary mrright16" value="Вернуться к просмотру" onclick="SwitchBetween('editprofile', 'displayprofile')" />
+                <input type="button" class="btn btn-primary" value="Редактировать" onclick="EditUserInProfile('@Model.ThisUser.Id')" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<form>
+    <div class="base mrbot16">
+        <p class="font-weight-bold fontsize18 mrbot8 cursor-default">Редактирование пароля</p>
+        <div style="margin-bottom: .5rem;">
+            <div class="d-flex al-it-cn">
+                <label for="oldpass" class="form-label m-0 w-20">Старый пароль</label>
+                <input type="password" class="form-control" id="oldpass" placeholder="Введите старый пароль">
+            </div>
+            <div id="oldpass-error" class="invalid-feedback">*введите старый пароль</div>
+        </div>
+        <div style="margin-bottom: .5rem;">
+            <div class="d-flex al-it-cn">
+                <label for="newpass" class="form-label m-0 w-20">Новый пароль</label>
+                <input type="password" class="form-control" id="newpass" placeholder="Введите новый пароль">
+            </div>
+            <div id="newpass-error" class="invalid-feedback">*введите новый пароль</div>
+        </div>
+        <input type="button" class="btn btn-primary" value="Редактировать пароль" onclick="EditPassword('@Model.ThisUser.Id')" />
+    </div>
+</form>
+
+@if (Model.ThisUser.Role == "Рабочий")
+{
+    <form>
+        <div class="base mrbot16 d-flex al-it-cn jscn-spbt" id="reportfield">
+            <p class="font-weight-bold fontsize18 cursor-default">Отчет по выполненой работе</p>
+            <input type="button" class="btn btn-primary" value="Открыть" onclick="OpenWorkerReport('@Model.ThisUser.Id')" />
+        </div>
+    </form>
+}

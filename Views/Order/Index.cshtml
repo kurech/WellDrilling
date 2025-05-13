@@ -1,0 +1,74 @@
+﻿@model CommonViewModel
+@{
+    List<WorkOrder> workOrders = (List<WorkOrder>)ViewBag.WorkOrders;
+    List<Client> clients = (List<Client>)ViewBag.Clients;
+    List<Well> wells = (List<Well>)ViewBag.Wells;
+    List<WellUser> wellusers = (List<WellUser>)ViewBag.WellUsers;
+    List<User> users = (List<User>)ViewBag.Users;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="modal-background" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="input-group mrbot16">
+        <input type="search" class="form-control rounded" placeholder="Поиск по ID заказа" aria-label="Search" aria-describedby="search-addon" id="searchwellfield" value="@(ViewBag.SearchedName != null ? ViewBag.SearchedName : "")" />
+        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init onclick="SearchOrder()">поиск</button>
+    </div>
+
+    <div class="d-flex jscn-spbt mrbot16 al-it-cn" id="topfields">
+        <p class="main-name">Результаты поиска:</p>
+        @if (Model.ThisUser.Role == "Менеджер")
+        {
+            <a onclick="openModalCreateOrder({ url: '/Order/Add' });" class="fontsize20 hover-color-blue cursor-pointer" style="display: inline-block; text-decoration: none; color: black">Добавить заказ на бурение</a>
+        }
+    </div>
+
+    <div class="div-result">
+        @foreach (var wo in workOrders)
+        {
+            <div class="base mrbot8 d-flex jscn-spbt al-it-cn">
+                <div>
+                    <p class="name-sqw cursor-pointer" onclick="openModalDisplayOrder({ url: '/Order/Single', orderid: '@wo.Id' })">Номер заказа: @wo.Id</p>
+                    <div class="d-flex">
+                        <p class="depth-sqw mrright16">Заказчик: </p>
+                        <p class="adress-sqw mrright16">@clients.Single(x => x.Id == wo.ClientId).LastName</p>
+                        <p class="adress-sqw">@clients.Single(x => x.Id == wo.ClientId).FirstName</p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="depth-sqw mrright16">Скважина: </p>
+                        <p class="adress-sqw">@wells.Single(x => x.Id == wo.WellId).Name</p>
+                    </div>
+                    @if (wo.WorkScheduleId != null)
+                    {
+                        <div class="d-flex">
+                            <p class="depth-sqw mrright16">Рабочие: </p>
+                            @foreach (var welluser in wellusers.Where(x => x.WorkScheduleId == wo.WorkScheduleId))
+                            {
+                                var once = @users.SingleOrDefault(x => x.Id == welluser.UserId);
+                                <p class="adress-sqw mrright16">@once.LastName @once.FirstName</p>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="depth-sqw">Рабочие еще неназначены</p>
+                    }
+                </div>
+                <input type="button" class="btn btn-primary" value="Отчет" onclick="GetOrderReport('@wo.Id')" />
+            </div>
+        }
+        @if (workOrders.Count == 0)
+        {
+            <p class="mrtop16">Заказы не найдены</p>
+        }
+    </div>
+</div>

@@ -1,0 +1,36 @@
+﻿@model CommonViewModel
+@{
+    List<WorkSchedule> ws = (List<WorkSchedule>)ViewBag.MyWorkSchedules;
+    List<WellUser> wu = (List<WellUser>)ViewBag.WellUsers;
+    List<Well> wells = (List<Well>)ViewBag.Wells;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="modal-background" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<p class="fontsize20 mrbot16">Расписание работ</p>
+
+@foreach(var schedule in ws)
+{
+    var welluser = wu.SingleOrDefault(x => x.WorkScheduleId == schedule.Id && x.UserId == Model.ThisUser.Id);
+    double commoncost = schedule.PlannedCost;
+    int workercount = wu.Where(x => x.WorkScheduleId == schedule.Id).Count();
+    <div class="base mrbot16 jscn-spbt al-it-cn">
+        <div class="w-90">
+            <p title="Наименование скважины">@wells.SingleOrDefault(w => w.Id == welluser.WellId).Name</p>
+            <p>Даты: <i>@schedule.StartDate.ToLongDateString() - @schedule.EndDate.ToLongDateString()</i></p>
+            <p>Статус: <i>@schedule.Status</i></p>
+            <p>Описание: <i>@schedule.Description</i></p>
+            <p>Заработная плата: <i>@(commoncost/workercount)</i> рублей</p>
+        </div>
+        <input type="button" class="btn btn-primary h-45px" value="Открыть" onclick="openModalDisplaySchedule({ url: '/Schedule/Display', scheduleid: '@schedule.Id' });" />
+    </div>
+}

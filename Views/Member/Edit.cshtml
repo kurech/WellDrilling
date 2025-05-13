@@ -1,0 +1,35 @@
+﻿@{
+    robert.Models.User user = (robert.Models.User)ViewBag.User;
+}
+
+<form>
+    <p class="fontsize24 font-weight-bold mrbot16 cursor-default">Пользователь №@user.Id</p>
+    <input type="hidden" class="form-control" id="userid" value="@user.Id">
+    <div class="fontsize22 mrbot16">
+        <label for="roleedit" class="form-label">Роль</label>
+        <select class="form-select" id="roleedit">
+            <!option value="Рабочий" @(user.Role == "Рабочий" ? "selected" : "")>Рабочий</!option>
+            <!option value="Оператор" @(user.Role == "Оператор" ? "selected" : "")>Оператор</!option>
+            <!option value="Менеджер" @(user.Role == "Менеджер" ? "selected" : "")>Менеджер</!option>
+        </select>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="lastnameedit" class="form-label">Фамилия</label>
+        <input type="text" class="form-control" id="lastnameedit" placeholder="Введите фамилию" value="@user.LastName" oninput="validateTextInput(this)" maxlength="254">
+        <div id="lastnameedit-error" class="invalid-feedback">*введите фамилию</div>
+    </div>
+    <div class="fontsize22 mrbot16">
+        <label for="firstnameedit" class="form-label">Имя</label>
+        <input type="text" class="form-control" id="firstnameedit" placeholder="Введите имя" value="@user.FirstName" oninput="validateTextInput(this)" maxlength="254">
+        <div id="firstnameedit-error" class="invalid-feedback">*введите имя</div>
+    </div>
+    @if (user.IsBlocked == false)
+    {
+        <input type="button" class="btn btn-primary" style="font-size: 22px !important" value="Заблокировать" onclick="SetBlockUser()" />
+    }
+    else
+    {
+        <input type="button" class="btn btn-primary" style="font-size: 22px !important" value="Разблокировать" onclick="SetUnblockUser()" />
+    }
+    <input type="button" class="btn btn-primary" style="font-size: 22px !important" value="Редактировать" onclick="EditUser()" />
+</form>

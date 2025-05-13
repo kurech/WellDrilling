@@ -1,0 +1,82 @@
+﻿@model CommonViewModel
+@{
+    WorkSchedule ws = (WorkSchedule)ViewBag.WorkSchedule;
+    WorkOrder wo = (WorkOrder)ViewBag.WorkOrder;
+    Well well = (Well)ViewBag.Well;
+    List<WellUser> wellusers = (List<WellUser>)ViewBag.WellUsers;
+    List<User> users = (List<User>)ViewBag.Users;
+
+    var readyusers = wellusers.Where(x => x.IsReady == true).Count();
+    var unreadyusers = wellusers.Where(x => x.IsReady == false).Count();
+}
+
+
+<form>
+    <p class="fontsize24 font-weight-bold mrbot16 cursor-default">Расписание работ для заказа №@wo.Id</p>
+
+    <div class="fontsize22">
+        <label class="form-label">Статус</label>
+        <label style="font-weight: bold" class="form-label">@ws.Status</label>
+    </div>
+    <div class="fontsize22">
+        <label class="form-label">Начальная дата</label>
+        <label style="font-weight: bold" class="form-label">@ws.StartDate.ToLongDateString()</label>
+    </div>
+    <div class="fontsize22">
+        <label class="form-label">Выполнение к сроку</label>
+        <label style="font-weight: bold" class="form-label">@ws.EndDate.ToLongDateString()</label>
+    </div>
+    <div class="fontsize22">
+        <label class="form-label">Заработная плата на бригаду рабочих</label>
+        <label style="font-weight: bold" class="form-label">@ws.PlannedCost<span style="font-weight: normal"> рублей</span></label>
+    </div>
+    <div class="fontsize22">
+        <label class="form-label">Описание</label>
+        <label style="font-weight: bold" class="form-label">@ws.Description</label>
+    </div>
+
+    <div class="fontsize22">
+        <label class="form-label">Рабочие</label>
+        @foreach (var welluser in wellusers)
+        {
+            var user = users.SingleOrDefault(x => x.Id == welluser.UserId);
+            <label style="font-weight: bold" class="form-label" onclick="openModalDisplayWorker({ url: '/Worker/Index', userid: @user.Id})">@user.LastName</label>
+            <label style="font-weight: bold" class="form-label" onclick="openModalDisplayWorker({ url: '/Worker/Index', userid: @user.Id})">@user.FirstName</label>
+            if (wellusers.Last() != welluser)
+            {
+                <label>,</label>
+            }
+        }
+        <label class="form-label">(неподтвердили выполнение @unreadyusers из @(unreadyusers+readyusers))</label>
+        @if (unreadyusers != 0 && ws.EndDate < DateTime.Now)
+        {
+            <label class="form-label hover-color-blue cursor-pointer" onclick="SendNotificationToWorker('@ws.Id')">Отправить уведомления о просроченности</label>
+        }
+    </div>
+
+    <div class="fontsize22">
+        <label class="form-label">Скважина</label>
+        <label style="font-weight: bold" class="form-label" onclick="openModalDisplayWell({ url: '/Borehole/Display', wellid: @well.Id})">@well.Name</label>
+        <div id="wellmap" style="width: 100%; height: 250px">
+            <script>
+                DG.then(function () {
+                    latitude = '@well.Latitude'.replace(',', '.');
+                    longitude = '@well.Longitude'.replace(',', '.');
+
+                    map = DG.map(`wellmap`, {
+                        center: [latitude, longitude],
+                        zoom: 13
+                    });
+
+                    DG.marker([latitude, longitude]).addTo(map).bindPopup('@well.Name');
+                });
+            </script>
+        </div>
+    </div>
+    
+
+    @if (@ws.Status != "Выполнено" && Model.ThisUser.Role == "Оператор" && unreadyusers == 0)
+    {
+        <input type="button" class="btn btn-primary mrtop16" style="font-size: 20px !important" value="Подтвердить выполнение" onclick="SetScheduleStatus('@ws.Id', 'Выполнено')" />
+    }
+</form>

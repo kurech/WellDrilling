@@ -1,0 +1,60 @@
+﻿@{
+    List<Well> wells = (List<Well>)ViewBag.Wells;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="modal-background" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="input-group mrbot16">
+    <input type="search" class="form-control rounded" placeholder="Поиск по названию скважины" aria-label="Search" aria-describedby="search-addon" id="searchwellfield" value="@(ViewBag.SearchedName != null ? ViewBag.SearchedName : "")" />
+    <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init onclick="SeachWell()">поиск</button>
+</div>
+
+<div class="d-flex jscn-spbt mrbot16 al-it-cn" id="topfields">
+    <p class="main-name">Результаты поиска:</p>
+    @if (Model.ThisUser.Role == "Менеджер")
+    {
+        <a onclick="openModalCreateWell({ url: '/Borehole/Add' });" class="fontsize20 hover-color-blue cursor-pointer" style="display: inline-block; text-decoration: none; color: black">Добавить скважину</a>
+    }
+</div>
+
+<div class="div-result">
+    @foreach (var well in wells)
+    {
+        <div class="base mrbot8 d-flex jscn-spbt">
+            <div style="width: 80%;" class="cursor-pointer" onclick="openModalDisplayWell({ url: '/Borehole/Display', wellid: '@well.Id'});">
+                <p class="name-sqw">@well.Name</p>
+                <p class="depth-sqw">Глубина: <b>@well.Depth</b> м.</p>
+                <p class="diametr-sqw">Диаметр: <b>@well.Diameter</b> м.</p>
+                <p class="adress-sqw">Координаты скважины: <b>[@well.Latitude;@well.Longitude]</b></p>
+            </div>
+            <div style="width: 20%;" id="map@(well.Id)">
+                <script>
+                    DG.then(function () {
+                        latitude = '@well.Latitude'.replace(',', '.');
+                        longitude = '@well.Longitude'.replace(',', '.');
+
+                        map = DG.map(`map${@well.Id}`, {
+                            center: [latitude, longitude],
+                            zoom: 13
+                        });
+
+                        DG.marker([latitude, longitude]).addTo(map).bindPopup('Вы кликнули по мне!');
+                    });
+                </script>
+            </div>
+        </div>
+    }
+    @if (wells.Count == 0)
+    {
+        <p class="fontsize20">Скважины не найдены</p>
+    }
+</div>

@@ -1,0 +1,475 @@
+﻿body {
+    margin: 0 0;
+}
+
+p{
+    margin: 0 0 !important;
+}
+
+.jscn-spbt{
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-padd {
+    padding: 24px 16px 16px 16px;
+}
+
+.al-it-cn{
+    align-items: center;
+}
+
+.fontsize16{
+    font-size: 16px;
+}
+.fontsize18 {
+    font-size: 18px;
+}
+.fontsize20 {
+    font-size: 20px;
+}
+.fontsize22 {
+    font-size: 22px;
+}
+.fontsize24 {
+    font-size: 24px;
+}
+.fontsize26 {
+    font-size: 26px;
+}
+.fontsize28 {
+    font-size: 28px;
+}
+
+.w-20{
+    width: 20%;
+}
+.w-10{
+    width: 10%;
+}
+.w-80 {
+    width: 80%;
+}
+.w-90{
+    width: 90%;
+}
+.w-60{
+    width: 60%;
+}
+
+.c-0d6efd {
+    color: #0d6efd !important;
+}
+
+.m-0-auto {
+    margin: 0 auto;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+.cursor-default {
+    cursor: default;
+}
+.m-0{
+    margin: 0;
+}
+
+.mrleft5per {
+    margin-left: 5%;
+}
+.mrright5per {
+    margin-right: 5%;
+}
+
+.well-back {
+    width: 100%;
+    background-color: #dedede;
+    padding: 16px;
+    border-radius: 5px;
+}
+
+.mrleft16{
+    margin-left: 16px;
+}
+.mrleft8 {
+    margin-left: 8px;
+}
+.mrbot16{
+    margin-bottom: 16px !important;
+}
+.mrbot8 {
+    margin-bottom: 8px !important;
+}
+.mrbot4 {
+    margin-bottom: 4px !important;
+}
+.mrtop16{
+    margin-top: 16px;
+}
+.mrright16{
+    margin-right: 16px !important;
+}
+/* Стили для заднего фона */
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Затемненный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* Должно быть выше остальных элементов на странице */
+}
+
+/* Стили для модального окна */
+.modal-dialog {
+    background-color: #fff;
+    padding: 2%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-width: 100% !important; /* Максимальная ширина модального окна */
+    width: 100% !important;
+    transition: transform 0.3s; /* Плавное появление */
+    transform: scale(0.7);
+    display: flex;
+    max-height: 85vh;
+    overflow-y: auto;
+    flex-direction: column; /* Располагать содержимое вертикально */
+}
+
+.modal-content{
+    border: none !important;
+}
+.modal-body {
+    padding: 0 !important;
+    overflow: auto;
+}
+/* Показать модальное окно и контент */
+.modal-dialog.show .modal-content {
+    transform: scale(1);
+}
+
+#modal {
+    display: none;
+}
+
+.main-name {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+}
+
+th, td {
+    border: 2px solid #fff !important;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(odd) {
+    background-color: #d4e2f3;
+}
+
+th {
+    background-color: #0d6efd;
+    color: white;
+}
+
+td {
+    color: black;
+}
+
+.one-res-sqw {
+    border: 1px solid rgb(188, 188, 188);
+    border-radius: 10px;
+    padding: 7px;
+}
+
+.name-sqw {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.depth-sqw {
+    font-size: 15px;
+}
+
+.diametr-sqw {
+    font-size: 15px;
+}
+
+.adress-sqw {
+    font-size: 15px;
+}
+
+.hover-color-gray:hover {
+    background-color: #0d6efd;
+}
+
+.hover-color-gray:hover td {
+    color: white;
+}
+
+.hover-color-gray {
+    cursor: pointer;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.base {
+    background-color: #f1f6ff;
+    border-radius: 10px;
+    padding: 16px 24px
+}
+
+.rightbar{
+    padding: 16px; /*16px 32px 16px 8px;*/
+    margin: 0 auto;
+}
+
+.menu{
+    padding: 16px 8px 16px 32px;
+}
+
+.txt-dcr-none a{
+    text-decoration: none;
+}
+
+.fclr-black{
+    color: black !important;
+}
+
+.hvr-0d6efd:hover {
+    color: #0d6efd !important;
+}
+
+p{
+    color: black;
+}
+
+.h-45px{
+    height: 45px !important;
+}
+
+option:checked {
+    background-color: #f1f6ff !important;
+}
+
+.hover-color-blue:hover {
+    color: #0d6efd !important;
+}
+
+.backgroud-ff494f {
+    background-color: #ff494f !important;
+}
+
+.backgroud-ff494f p{
+    color: white;
+}
+
+.base .backgroud-ff494f:hover {
+    background-color: #fe3232 !important;
+}
+
+.fontsize22 input {
+    font-size: 22px !important;
+}
+
+.fontsize22 select {
+    font-size: 22px !important;
+}
+
+.fontsize22 select option {
+    font-size: 16px !important;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table thead {
+    background-color: #0d6efd !important;
+    color: white;
+}
+
+.back-gray {
+    background-color: #f0f0f0 !important;
+}
+
+#mobilemenu{
+    position: absolute;
+    top: 100px;
+    left: 20%;
+    width: 60%;
+    padding: 16px 24px;
+    border: 1px #0d6efd solid;
+    border-radius: 5px;
+    background-color: white;
+    z-index: 9999;
+}
+
+@media screen and (max-width: 1024px) {
+    .base .w-60 .d-flex {
+        display: block !important;
+    }
+
+    .btn {
+        width: auto;
+    }
+}
+@media screen and (max-width: 900px) {
+    #menudropdownmenu {
+        display: block !important;
+    }
+
+    #menulist {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #body{
+        width: 80% !important;
+    }
+
+    .w-20{
+        width: 40% !important;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    #profilemainbuttons{
+        display: block !important;
+    }
+
+    #profilemainbuttons .mrright16 {
+        margin-bottom: 8px;
+    }
+
+    #authbody{
+        width: 80% !important;
+    }
+
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 15px;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        border: 1px solid #ddd;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table td,
+    .table th {
+        display: block;
+        text-align: left;
+    }
+
+    .table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table tbody tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 10px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    #authbutton {
+        width: 100% !important;
+    }
+
+    #body {
+        width: 95% !important;
+    }
+
+    #reportfield {
+        display: block !important;
+    }
+
+    #reportfield p{
+        margin-bottom: 8px !important;
+    }
+
+    .modal-dialog {
+        padding: 8px;
+        transform: scale(0.75);
+    }
+
+    .base .d-flex:last-child {
+        display: block !important;
+        margin-bottom: 8px;
+    }
+
+    .btn{
+        font-size: 14px !important;
+    }
+
+    #topfields{
+        display: block !important;
+    }
+
+    .base div:first-child {
+        width: 60% !important;
+    }
+    .base div:last-child {
+        width: 40% !important;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .w-20{
+        width: 50% !important;
+    }
+}
+
+/* CSS для прелоадера */
+#preloader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: #F0F0F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preloader-gif {
+    max-width: 100%; /* Максимальная ширина */
+    width: auto; /* Ширина на 100% от родительского элемента */
+    height: auto; /* Автоматическая высота для сохранения пропорций */
+}

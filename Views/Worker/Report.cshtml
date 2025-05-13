@@ -1,0 +1,33 @@
+﻿@model CommonViewModel
+@{
+    List<WorkSchedule> workSchedules = (List<WorkSchedule>)ViewBag.MySchedules;
+    List<Well> wells = (List<Well>)ViewBag.Wells;
+    List<WellUser> wellusers = (List<WellUser>)ViewBag.WellUsers;
+}
+
+<p class="fontsize24 mrbot16">Мои отчеты</p>
+
+@if (workSchedules.Count > 0)
+{
+    <div class="base mrbot16 jscn-spbt al-it-cn">
+        <p>Выполненные работы</p>
+        <input type="button" class="btn btn-primary h-45px" value="Скачать" />
+    </div>
+}
+else
+{
+    <p class="fontsize20">Нет данных</p>
+}
+
+@foreach(var ws in workSchedules)
+{
+    Well well = wells.FirstOrDefault(s => s.Id == wellusers.First(x => x.WorkScheduleId == ws.Id).WellId);
+    <div class="base mrbot16 jscn-spbt al-it-cn">
+        <div>
+            <p>@well.Name</p>
+            <p>@("["+ well.Latitude.ToString() + "; " + well.Longitude + "]")</p>
+            <p>@ws.Description</p>
+        </div>
+        <input type="button" class="btn btn-primary h-45px" value="Скачать" />
+    </div>
+}

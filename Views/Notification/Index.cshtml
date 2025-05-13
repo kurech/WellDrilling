@@ -1,0 +1,31 @@
+﻿@model CommonViewModel
+@{
+    List<Notification> notifications = (List<Notification>)ViewBag.Notifications;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="modal-background" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<p class="main-name mrbot16">Ваши уведомления</p>
+
+<div class="div-result">
+    @foreach (var notification in notifications)
+    {
+        <div class="base mrbot8 d-flex jscn-spbt al-it-cn @(notification.IsRead ? "back-gray" : "") cursor-pointer" onclick="openModalDisplayNotification({ url: '/Notification/Display', notificationid: '@notification.Id'})">
+            <p>@notification.NotificationType</p>
+            <p>@notification.DateTime.ToString()</p>
+        </div>
+    }
+    @if (notifications.Count == 0)
+    {
+        <p class="fontsize20">Уведомления не найдены</p>
+    }
+</div>

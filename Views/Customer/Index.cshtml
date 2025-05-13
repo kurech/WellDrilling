@@ -1,0 +1,57 @@
+﻿@{
+    List<Client> clients = (List<Client>)ViewBag.Clients;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="modal-background" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="input-group mrbot16">
+    <input type="search" class="form-control rounded" placeholder="Поиск по филимии и имени" aria-label="Search" aria-describedby="search-addon" id="searchwellfield" value="@(ViewBag.SearchedName != null ? ViewBag.SearchedName : "")" />
+    <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init onclick="SearchCustomer()">поиск</button>
+</div>
+
+<div style="justify-content: space-between; display: flex;" class="mrbot16 al-it-cn" id="topfields">
+    <p class="main-name">Результаты поиска:</p>
+    @if (Model.ThisUser.Role == "Менеджер")
+    {
+        <a onclick="openModalCreateClient({ url: '/Customer/Add' });" class="fontsize20 hover-color-blue cursor-pointer" style="display: inline-block; text-decoration: none; color: black">Добавить клиента</a>
+    }
+</div>
+
+<div class="div-result">
+    @foreach (var client in clients)
+    {
+        <div class="base mrbot8 d-flex jscn-spbt al-it-cn">
+            <div class="w-60 cursor-default">
+                <p class="name-sqw cursor-pointer" onclick="openModalDisplayClient({ url: '/Customer/Display', clientid: '@client.Id'})">@client.LastName @client.FirstName</p>
+                <div class="d-flex customercontact">
+                    <p class="depth-sqw mrright16">Контактная информация: </p>
+                    <a href="tel:@client.ContactNumber" class="adress-sqw mrright16" style="color: black; text-decoration: none;">@client.ContactNumber</a>
+                    <a href="mailto:@client.Email" class="adress-sqw" style="color: black; text-decoration: none;">@client.Email</a>
+                </div>
+                <p class="depth-sqw">@client.ClientType лицо</p>
+                <p class="diametr-sqw">@client.Address</p>
+            </div>
+            @if (!client.IsDeleted)
+            {
+                <input type="button" class="btn btn-primary backgroud-ff494f w-20" style="border: 1px solid #ff494f !important" value="Заблокировать" onclick="SetBlockClient('@client.Id')" />
+            }
+            else
+            {
+                <input type="button" class="btn btn-primary w-20" value="Разблокировать" onclick="SetUnblockClient('@client.Id')" />
+            }
+        </div>
+    }
+    @if (clients.Count == 0)
+    {
+        <p class="fontsize20">Клиенты не найдены</p>
+    }
+</div>

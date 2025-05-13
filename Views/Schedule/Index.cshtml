@@ -1,0 +1,63 @@
+﻿@{
+    List<User> users = (List<User>)ViewBag.Users;
+    List<WorkOrder> workorders = (List<WorkOrder>)ViewBag.WorkOrders;
+    List<Client>? allclients = (List<Client>)ViewBag.AllClients;
+    List<Well>? allwells = (List<Well>)ViewBag.AllWell;
+}
+
+<p class="fontsize20 mrbot16">Создание плана работ</p>
+<form>
+    <div class="mrbot8">
+        <label for="workorders" class="form-label">Заказы</label>
+        <select class="form-select" id="workorders" onchange="SetPlannedCost(this.form.workorders.value)">
+            <option disabled selected>Выберите заказ</option>
+            @foreach (var wo in workorders)
+            {
+                var client = allclients.SingleOrDefault(x => x.Id == wo.ClientId);
+                var well = allwells.SingleOrDefault(x => x.Id == wo.WellId);
+                <option value="@wo.Id">@wo.Id - @(client != null ? client.LastName : "") - @(well != null ? well.Name : "")</option>
+            }
+        </select>
+    </div>
+    <div class="mrbot8">
+        <label for="usersids" class="form-label">Рабочие</label>
+        <select class="form-select" style="height: auto; max-height: 300px;" id="usersids" multiple>
+            @foreach (var user in users)
+            {
+                <option value="@user.Id">@(user.LastName + " " + user.FirstName)</option>
+            }
+        </select>
+        <div id="usersids-error" class="invalid-feedback">*выберите хотя бы одного рабочего</div>
+    </div>
+    <div class="mrbot8">
+        <label for="startdate" class="form-label">Начало работы</label>
+        <input type="date" class="form-control" id="startdate">
+        <div id="startdate-error" class="invalid-feedback">*выберите дату начала работы</div>
+    </div>
+    <div class="mrbot8">
+        <label for="enddate" class="form-label">Завершение работы</label>
+        <input type="date" class="form-control" id="enddate">
+        <div id="enddate-error" class="invalid-feedback">*выберите дату завершения работы</div>
+    </div>
+    <div class="mrbot8">
+        <label for="plannedcost" class="form-label">Цена (общая)</label>
+        <label id="plannedcost" class="form-label"></label>
+        <div id="plannedcost-error" class="invalid-feedback"></div>
+    </div>
+    <input type="button" class="btn btn-primary" value="Создать" onclick="AddSchedule()" />
+</form>
+
+<script>
+    const startDateInput = document.getElementById('startdate');
+    startDateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+
+    const endDateInput = document.getElementById('enddate');
+
+    function setMinEndDate() {
+        endDateInput.setAttribute('min', startDateInput.value);
+    }
+
+    startDateInput.addEventListener('change', setMinEndDate);
+
+    setMinEndDate();
+</script>

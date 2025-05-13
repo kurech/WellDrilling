@@ -1,0 +1,8 @@
+﻿@{
+    var notification = (Notification)ViewBag.Notification;
+}
+
+<p class="fontsize24 font-weight-bold mrbot16 cursor-default">Уведомление</p>
+<p class="fontsize22 mrbot8">@notification.NotificationType</p>
+<p class="fontsize22 mrbot8">@notification.Content</p>
+<p class="fontsize22 mrbot8">@notification.DateTime.ToString()</p>

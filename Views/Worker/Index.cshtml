@@ -1,0 +1,8 @@
+﻿@{
+    var user = (robert.Models.User)ViewBag.Worker;
+}
+
+<p>Фамилия: <span>@user.LastName</span></p>
+<p>Имя: <span>@user.FirstName</span></p>
+<p>Электронная почта: <span>@user.Username</span></p>
+<p>Дата регистрации: <span>@user.RegistrationDate.ToLongDateString()</span></p>

@@ -1,0 +1,56 @@
+﻿@model CommonViewModel
+@{
+    WorkSchedule? ws = (WorkSchedule)ViewBag.TodayWorkSchedule;
+    Well well = (Well)ViewBag.Well;
+    List<WellUser> wu = (List<WellUser>)ViewBag.ThisScheduleWellUser;
+}
+
+<p class="fontsize20 mrbot16">Работа на сегодня @DateTime.Now.ToLongDateString()</p>
+
+@if (ws == null)
+{
+    <p>Работа на сегодня отсутвует</p>
+}
+else
+{
+    if (!wu.First(x => Model.ThisUser.Id == x.UserId).IsReady)
+    {
+        <div class="base mrbot16">
+            <p class="font-weight-bold fontsize18 mrbot8">Условия</p>
+            <p title="Описание работы" class="mrbot4">@ws.Description</p>
+            <p title="Заработная плата" class="mrbot4">Заработная плата в размере @(ws.PlannedCost / wu.Count) рублей</p>
+            <p title="Время работы на этом объекте">Начало работ @ws.StartDate.ToShortDateString() - Завершение работы @ws.EndDate.ToShortDateString()</p>
+        </div>
+        <div class="base mrbot16">
+            <p class="font-weight-bold fontsize18 mrbot8">Информация о скважине</p>
+            <p title="Наименование" class="mrbot4">Наименование: <i>@well.Name</i></p>
+            <p title="Необходимый диаметр" class="mrbot4">Необходимый диаметр: <i>@well.Diameter</i> метров</p>
+            <p title="Необходимая глубина" class="mrbot4">Необходимая глубина: <i>@well.Depth</i> метров</p>
+            <p title="Метод бурения" class="mrbot4">Метод бурения: <i>@well.DrillingMethod</i></p>
+            <p title="Тип грунта" class="mrbot4">Тип грунта: <i>@well.SoilType</i></p>
+            <div id="wellmap" style="width: 100%; height: 400px;">
+                <script>
+                    DG.then(function () {
+                        latitude = '@well.Latitude'.replace(',', '.');
+                        longitude = '@well.Longitude'.replace(',', '.');
+
+                        map = DG.map(`wellmap`, {
+                            center: [latitude, longitude],
+                            zoom: 13
+                        });
+
+                        DG.marker([latitude, longitude]).addTo(map).bindPopup('@well.Name');
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="base d-flex al-it-cn jscn-spbt" id="reportfield">
+            <p class="font-weight-bold fontsize18 mrbot8">Отчетность о выполнении</p>
+            <input type="button" class="btn btn-primary" value="Подтвердить выполнение" onclick="SetReadyWork('@wu.First(x => Model.ThisUser.Id == x.UserId).Id');" />
+        </div>
+    }
+    else
+    {
+        <p>Работа на сегодня отсутвует</p>
+    }
+}
